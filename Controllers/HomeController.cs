@@ -1,4 +1,5 @@
 using INTEXteam5.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -17,7 +18,11 @@ namespace INTEXteam5.Controllers
         {
             return View();
         }
-
+        [Authorize]
+        public IActionResult Secrets()
+        {
+            return View();
+        }
         public IActionResult Privacy()
         {
             return View();

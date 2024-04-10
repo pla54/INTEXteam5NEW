@@ -84,11 +84,14 @@ using(var scope = app.Services.CreateScope())
     }
 }
 
+var adminEmail = builder.Configuration["Admin:Email"];
+var adminPassword = builder.Configuration["Admin:Password"];
+
 using (var scope = app.Services.CreateScope())
 {
     var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
-    string email = "admin@admin.com";
-    string password = "Test1234,";
+    string email = adminEmail;
+    string password = adminPassword;
 
     if(await userManager.FindByEmailAsync(email) == null)
     {

@@ -18,6 +18,7 @@ namespace INTEXteam5.Controllers
         {
             return View();
         }
+
         [Authorize]
         public IActionResult Secrets()
         {

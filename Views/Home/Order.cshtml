@@ -1,0 +1,61 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model OrdersListViewModel
+
+<h1>Orders</h1>
+       
+
+<table class="table">
+
+    <thead class="table-head">
+        <tr>
+            <td>TransactionId </td>
+            <td>CustomerId </td>
+            <td>Date </td>
+            <td>DayOfWeek </td>
+            <td>Time </td>
+            <td>EntryMode </td>
+            <td>Amount </td>
+            <td>TypeOfTransaction </td>
+            <td>CountryOfTransaction </td>
+            <td>ShippingAddress </td>
+            <td>Bank </td>
+            <td>TypeOfCard </td>
+            <td>Fraud </td>
+        </tr>
+
+    </thead>
+
+    @foreach (Order o in Model.Orders)
+    {
+        <tbody>
+            <tr>
+                <td>@o.TransactionId</td>
+                <td>@o.CustomerId</td>
+                <td>@o.Date</td>
+                <td>@o.DayOfWeek</td>
+                <td>@o.Time</td>
+                <td>@o.EntryMode</td>
+                <td>@o.Amount</td>
+                <td>@o.TypeOfTransaction</td>
+                <td>@o.CountryOfTransaction</td>
+                <td>@o.ShippingAddress</td>
+                <td>@o.Bank</td>
+                <td>@o.TypeOfCard</td>
+                <td>@o.Fraud</td>
+
+                <td><a class="btn btn-info" asp-controller="Home" asp-action="Edit" asp-route-id="@o.TransactionId">Edit</a></td>
+                <td><a class="btn btn-danger" asp-controller="Home" asp-action="Delete" asp-route-id="@o.TransactionId">Delete</a></td>
+            </tr>
+
+        </tbody>
+    }
+
+
+</table>
+
+<div page-model="@Model.PaginationInfo" page-action="Order" page-classes-enabled="true" page-class="btn" 
+    page-class-normal="btn-outline-dark" page-class-selected="btn-primary" class="btn-group pull-right m-1"></div>

@@ -1,37 +1,36 @@
 using INTEXteam5.Data;
+using INTEXteam5.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Sqlite;
-using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
-
-builder.Services.Configure<CookiePolicyOptions>(options =>
-{
-    // This lambda determines whether user consent for non-essential 
-    // cookies is needed for a given request.
-    options.CheckConsentNeeded = context => true;
-
-    options.MinimumSameSitePolicy = SameSiteMode.None;
-    options.ConsentCookieValue = "true";
-});
 
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     //options.UseSqlServer(connectionString));
     options.UseSqlite(connectionString));
+
+builder.Services.AddDbContext<Intexteam5Context>(options =>
+{
+    options.UseSqlite(builder.Configuration["ConnectionStrings:DefaultConnection"]);
+});
+
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
 
+
 builder.Services.AddAuthentication().AddGoogle(googleOptions =>
 {
     googleOptions.ClientId = builder.Configuration["Authentication:Google:ClientId"];
     googleOptions.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"];
 });
+
+builder.Services.AddScoped<IIntexRepository, EFIntexRepository>();
 
 var app = builder.Build();
 
@@ -50,16 +49,15 @@ else
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
-app.UseCookiePolicy();
-
 app.UseRouting();
 
+
+app.UseAuthorization();
+
 app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+   name: "default",
+   pattern: "{controller=Home}/{action=Index}/{id?}");
+
 app.MapRazorPages();
 
-
-app.UseAuthentication();
-app.UseAuthorization();
 app.Run();

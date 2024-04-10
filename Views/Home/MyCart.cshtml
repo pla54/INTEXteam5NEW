@@ -1,0 +1,27 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@* @model 
+
+    <h1>My Cart</h1>
+
+    @foreach (MyCart m in Modle.MyCarts)
+{
+    <div class="card m-1 p-1">
+        <h4>@m.
+        <span class="badge rounded-pill bg-primary text-white float-end"><small>@m.price</small></span>
+        </h4>
+
+        <ul>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ul>
+    </div>
+}
+
+<div page-model="@Model.PaginationInfo" page-action="MyCart"></div> *@

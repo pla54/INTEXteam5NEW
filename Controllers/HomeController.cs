@@ -14,7 +14,7 @@ namespace INTEXteam5.Controllers
 
         public HomeController(IIntexRepository temp)
         {
-            _repo = temp;
+          _repo = temp;
         }
 
 
@@ -22,11 +22,12 @@ namespace INTEXteam5.Controllers
         private readonly UserManager<IdentityUser> _userManager;
 
         // Modify the constructor to accept both ILogger<HomeController> and UserManager<IdentityUser>
-        public HomeController(ILogger<HomeController> logger, UserManager<IdentityUser> userManager)
-        {
-            _logger = logger;
-            _userManager = userManager; // Now userManager is defined as a parameter
-        }
+        //public HomeController(ILogger<HomeController> logger, UserManager<IdentityUser> userManager, IIntexRepository temp)
+        //{
+        //    _logger = logger;
+        //    _userManager = userManager; // Now userManager is defined as a parameter
+        //    _repo = temp;
+        //}
 
         public IActionResult Index()
         {
@@ -84,19 +85,19 @@ namespace INTEXteam5.Controllers
             return View();
         }
 
-        [HttpGet]
-        [Authorize(Roles = "Admin")]
-        public IActionResult AdminAction()
-        {
-            return View("Admin");
-        }
-        [HttpGet]
-        [Authorize(Roles = "Admin")]
-        public IActionResult ViewUsers()
-        {
-            List<IdentityUser> users = _userManager.Users.ToList();
-            return View(users);
-        }
+        //[HttpGet]
+        //[Authorize(Roles = "Admin")]
+        //public IActionResult AdminAction()
+        //{
+        //    return View("Admin");
+        //}
+        //[HttpGet]
+        //[Authorize(Roles = "Admin")]
+        //public IActionResult ViewUsers()
+        //{
+        //    List<IdentityUser> users = _userManager.Users.ToList();
+        //    return View(users);
+        //}
 
 
         //[HttpGet]

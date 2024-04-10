@@ -72,12 +72,12 @@
 //app.UseAuthentication();
 //app.UseAuthorization();
 
-//using(var scope = app.Services.CreateScope())
+//using (var scope = app.Services.CreateScope())
 //{
 //    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
 //    var roles = new[] { "Admin", "Manager", "Member" };
 
-//    foreach(var role in roles)
+//    foreach (var role in roles)
 //    {
 //        if (!await roleManager.RoleExistsAsync(role))
 //            await roleManager.CreateAsync(new IdentityRole(role));
@@ -93,7 +93,7 @@
 //    string email = adminEmail;
 //    string password = adminPassword;
 
-//    if(await userManager.FindByEmailAsync(email) == null)
+//    if (await userManager.FindByEmailAsync(email) == null)
 //    {
 //        var user = new IdentityUser();
 //        user.UserName = email;
@@ -115,6 +115,16 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Sqlite;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.Configure<CookiePolicyOptions>(options =>
+{
+    // This lambda determines whether user consent for non-essential 
+    // cookies is needed for a given request.
+    options.CheckConsentNeeded = context => true;
+
+    options.MinimumSameSitePolicy = SameSiteMode.None;
+    options.ConsentCookieValue = "true";
+});
 
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
@@ -168,10 +178,9 @@ app.Use(async (ctx, next) =>
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
+
+app.UseCookiePolicy();
 app.UseRouting();
-
-
-app.UseAuthorization();
 
 app.MapControllerRoute(
    name: "default",
@@ -194,23 +203,23 @@ using (var scope = app.Services.CreateScope())
 var adminEmail = builder.Configuration["Admin:Email"];
 var adminPassword = builder.Configuration["Admin:Password"];
 
-using (var scope = app.Services.CreateScope())
-{
-    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
-    string email = adminEmail;
-    string password = adminPassword;
+//using (var scope = app.Services.CreateScope())
+//{
+//    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
+//    string email = adminEmail;
+//    string password = adminPassword;
 
-    if (await userManager.FindByEmailAsync(email) == null)
-    {
-        var user = new IdentityUser();
-        user.UserName = email;
-        user.Email = email;
+//    if (await userManager.FindByEmailAsync(email) == null)
+//    {
+//        var user = new IdentityUser();
+//        user.UserName = email;
+//        user.Email = email;
 
-        await userManager.CreateAsync(user, password);
+//        await userManager.CreateAsync(user, password);
 
-        await userManager.AddToRoleAsync(user, "Admin");
-    }
-}
+//        await userManager.AddToRoleAsync(user, "Admin");
+//    }
+//}
 
 app.UseAuthentication();
 app.UseAuthorization();

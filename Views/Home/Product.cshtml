@@ -6,3 +6,20 @@
     <h1 class="display-4">Welcome</h1>
     <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>
+
+@model ProductListViewModel
+    
+    <h1>Products List</h1>
+
+    @foreach (Product p in Model.Products)
+    {
+        <h3>@p.Name</h3>
+
+        <ul>
+            <li>Price: @p.Price</li>
+        </ul>  
+    }
+
+    <a asp-controller="Home" asp-action="Product" asp-route-pageNum="1">1</a>
+    <a asp-controller="Home" asp-action="Product" asp-route-pageNum="2">2</a>
+    <a asp-controller="Home" asp-action="Product" asp-route-pageNum="3">3</a>

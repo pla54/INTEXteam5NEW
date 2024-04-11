@@ -132,12 +132,13 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     //options.UseSqlServer(connectionString));
     options.UseSqlite(connectionString));
 
+builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+
 builder.Services.AddDbContext<Intexteam5Context>(options =>
 {
     options.UseSqlite(builder.Configuration["ConnectionStrings:DefaultConnection"]);
 });
 
-builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
     .AddRoles<IdentityRole>()

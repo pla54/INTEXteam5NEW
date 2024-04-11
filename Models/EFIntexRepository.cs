@@ -8,6 +8,8 @@ namespace INTEXteam5.Models
             _context = temp;
         }
         public IQueryable<Order> Orders => _context.Orders;
+
+        public IQueryable<Product> Products => _context.Products;
     }
 }
 

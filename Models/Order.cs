@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace INTEXteam5.Models;
 
@@ -8,9 +9,10 @@ public partial class Order
 {
     [Key]
     public int? TransactionId { get; set; }
-
+    //[ForeignKey("CustomerId")]
+    //public int? CustomerId { get; set; }
+    //public Customer? Customer { get; set; }
     public int? CustomerId { get; set; }
-
     public DateTime? Date { get; set; }
 
     public string? DayOfWeek { get; set; }

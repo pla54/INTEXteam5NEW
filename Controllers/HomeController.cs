@@ -80,7 +80,28 @@ namespace INTEXteam5.Controllers
         {
             return View();
         }
-        public IActionResult Product()
+        public IActionResult Product(int pageNum)
+        {
+            int pageSize = 5;
+
+            var blah = new ProductListViewModel
+            {
+                Products = _repo.Products
+                    .OrderBy(x => x.Name)
+                    .Skip((pageNum - 1) * pageSize)
+                    .Take(pageSize),
+
+                PaginationInfo = new PaginationInfo
+                {
+                    CurrentPage = pageNum,
+                    ItemsPerPage = pageSize,
+                    TotalItems = _repo.Products.Count()
+                }
+            };
+
+            return View(blah);
+        }
+        public IActionResult Caleb()
         {
             return View();
         }

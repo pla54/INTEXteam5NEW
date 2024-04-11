@@ -10,34 +10,38 @@ namespace INTEXteam5.Infrastructure
     [HtmlTargetElement("div", Attributes="page-model")]
     public class PaginationTagHelper : TagHelper
     {
-        private IUrlHelperFactory urlHelperFactyory;
+        private IUrlHelperFactory urlHelperFactory;
         public PaginationTagHelper (IUrlHelperFactory temp)
         {
-            urlHelperFactyory = temp;
+            this.urlHelperFactory = temp;
         }
 
         [ViewContext]
         [HtmlAttributeNotBound]
         public ViewContext? ViewContext { get; set; }
         public string? PageAction { get; set; }
+        [HtmlAttributeName(DictionaryAttributePrefix = "page-url-")]
+        public Dictionary<string, object> PageUrlValues { get; set; } = new Dictionary<string, object>();
         public PaginationInfo PageModel { get; set; }
 
-        public bool PageClassesEnabled { get; set; }
-        public string PageClass { get; set; } = string.Empty;
-        public string PageClassNormal {  get; set; } = string.Empty;
-        public string PageClassSelected { get;  set; } = string.Empty;
+        public bool PageClassesEnabled { get; set; } = false;
+        public string PageClass { get; set; } = String.Empty;
+        public string PageClassNormal {  get; set; } = String.Empty;
+        public string PageClassSelected { get;  set; } = String.Empty;
 
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
             if (ViewContext != null && PageModel != null)
             {
-                IUrlHelper urlHelper = urlHelperFactyory.GetUrlHelper(ViewContext);
+                IUrlHelper urlHelper = urlHelperFactory.GetUrlHelper(ViewContext);
 
                 TagBuilder result = new TagBuilder("div");
                 
-                for (int i = 1; 1 <= PageModel.TotalNumPages; i++)
+                for (int i = 1; i <= PageModel.TotalNumPages; i++)
                 {
                     TagBuilder tag = new TagBuilder("a");
+                    PageUrlValues["pageNum"] = i;
+
                     tag.Attributes["href"] = urlHelper.Action(PageAction, new { pageNum = i });
 
                     if(PageClassesEnabled)
